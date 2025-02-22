@@ -1,0 +1,47 @@
+# =====================================
+# General System Files
+# =====================================
+.DS_Store
+Thumbs.db
+*.log
+
+# =====================================
+# Dependencies and Build Artifacts
+# =====================================
+node_modules/       # Exclude node_modules in all subfolders
+dist/               # Backend compiled code
+build/              # Frontend build artifacts
+coverage/           # Test coverage reports
+
+# =====================================
+# Environment and Secrets
+# =====================================
+.env                # Exclude all .env files
+.env.local
+.env*.tmp
+
+# =====================================
+# IDE and Editor Configurations
+# =====================================
+.vscode/
+.idea/
+
+# =====================================
+# Backend-specific
+# =====================================
+backend/uploads/    # Temporary file storage
+backend/.env        # Backend-specific environment variables
+
+# =====================================
+# Frontend-specific (Vite)
+# =====================================
+frontend/.env       # Frontend-specific environment variables
+frontend/node_modules/
+frontend/.vite/     # Vite cache directory
+frontend/dist/      # Vite production build
+frontend/__sapper__/
+frontend/.svelte-kit/
+
+# Vite-specific temp files
+frontend/*.tmp
+frontend/*.temp.*
