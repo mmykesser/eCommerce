@@ -1,0 +1,43 @@
+# ======================
+# Dependencies
+# ======================
+**/node_modules/
+
+# ======================
+# Builds and Compilations
+# ======================
+**/dist/
+**/build/
+**/.vite/
+**/__sapper__/
+**/.svelte-kit/
+*.tsbuildinfo
+
+# ======================
+# Testing
+# ======================
+**/coverage/
+**/.nyc_output/
+
+# ======================
+# Sensitive Data
+# ======================
+.env*
+!.env.example
+
+# ======================
+# Temporary Files
+# ======================
+*.tmp
+*.temp
+*.log
+.DS_Store
+Thumbs.db
+**/uploads/
+
+# ======================
+# IDEs and Editors
+# ======================
+.vscode/
+.idea/
+*.sublime-*
