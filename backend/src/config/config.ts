@@ -1,12 +1,5 @@
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-interface Config {
-  port: number;
-  mongoURI: string;
-  jwtSecret: string;
-}
+import 'dotenv-safe/config';
+import { Config } from '../types/config.types';
 
 const getEnvVariable = (name: string): string => {
   const value = process.env[name];
