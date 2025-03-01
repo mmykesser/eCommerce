@@ -1,5 +1,5 @@
 import 'dotenv-safe/config';
-import { Config } from '../types/config.types';
+import { IConfig } from '../types/config.types';
 
 const getEnvVariable = (name: string): string => {
   const value = process.env[name];
@@ -9,7 +9,7 @@ const getEnvVariable = (name: string): string => {
   return value;
 };
 
-const config: Config = {
+const config: IConfig = {
   port: parseInt(getEnvVariable('PORT'), 10),
   mongoURI: getEnvVariable('MONGODB_URI'),
   jwtSecret: getEnvVariable('JWT_SECRET'),
