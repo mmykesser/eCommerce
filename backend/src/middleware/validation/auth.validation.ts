@@ -1,12 +1,8 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 import { RegistrationData } from '../../types/auth.types';
 import { ValidationError } from '../../utils/errors.utils';
 
-export const validateRegistration: RequestHandler = (
-  req: Request,
-  _res: Response,
-  next: NextFunction,
-) => {
+export const validateRegistration: RequestHandler = (req, _res, next) => {
   try {
     const { email, password, name } = req.body as RegistrationData;
 
