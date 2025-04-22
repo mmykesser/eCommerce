@@ -1,10 +1,13 @@
 import express, { Express } from 'express';
 import config from './config/config';
 import connectDB from './database/db';
+import authRoutes from './routes/auth.routes';
 
 const app: Express = express();
 
 app.use(express.json());
+
+app.use('api/auth', authRoutes);
 
 const startServer = async (): Promise<void> => {
   try {
