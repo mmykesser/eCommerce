@@ -23,7 +23,7 @@
 # Sensitive Data
 # ======================
 .env*
-!.env.example
+!backend/.env.example
 
 # ======================
 # Temporary Files
