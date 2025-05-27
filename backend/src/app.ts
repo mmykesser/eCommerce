@@ -7,7 +7,7 @@ const app: Express = express();
 
 app.use(express.json());
 
-app.use('api/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 
 const startServer = async (): Promise<void> => {
   try {
