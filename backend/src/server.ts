@@ -20,17 +20,17 @@ const startServer = async (): Promise<void> => {
       console.log(`Server running on port ${config.port}`);
     });
 
-    server.on('error', (error) => {
-      console.error('Server error:', error);
+    server.on('error', (err) => {
+      console.error('Server error:', err);
       process.exit(1);
     });
-  } catch (error) {
-    console.error('Server failed:', error);
+  } catch (err) {
+    console.error('Server failed:', err);
     process.exit(1);
   }
 };
 
-startServer().catch((error) => {
-  console.error('Unhandled error:', error);
+startServer().catch((err) => {
+  console.error('Unhandled error:', err);
   process.exit(1);
 });
