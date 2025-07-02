@@ -1,5 +1,5 @@
 import { UserModel } from '../models/User';
-import { IUser } from '../interfaces/user.types';
+import { IUser } from '../interfaces/models/user.interface';
 import { RegistrationData } from '../interfaces/auth.types';
 import { ConflictError } from '../utils/errors.utils';
 
