@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express';
-import { RegistrationData } from '../../interfaces/auth.types';
+import { IRegistrationData } from '../../interfaces/dto/auth.interface';
 import { ValidationError } from '../../utils/errors.utils';
 
 export const validateRegistration: RequestHandler = (req, _res, next) => {
-  const { email, password, name } = req.body as RegistrationData;
+  const { email, password, name } = req.body as IRegistrationData;
 
   if (!email || !password || !name) {
     return next(new ValidationError('All fields are required'));

@@ -1,9 +1,9 @@
 import { UserModel } from '../models/User';
 import { IUser } from '../interfaces/models/user.interface';
-import { RegistrationData } from '../interfaces/auth.types';
+import { IRegistrationData } from '../interfaces/dto/auth.interface';
 import { ConflictError } from '../utils/errors.utils';
 
-export const registerUser = async (data: RegistrationData): Promise<IUser> => {
+export const registerUser = async (data: IRegistrationData): Promise<IUser> => {
   const { email } = data;
   const existingUser = await UserModel.findOne({ email });
   if (existingUser) {
