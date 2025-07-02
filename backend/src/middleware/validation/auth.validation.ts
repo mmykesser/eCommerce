@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { RegistrationData } from '../../types/auth.types';
+import { RegistrationData } from '../../interfaces/auth.types';
 import { ValidationError } from '../../utils/errors.utils';
 
 export const validateRegistration: RequestHandler = (req, _res, next) => {

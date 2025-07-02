@@ -1,6 +1,6 @@
 import { UserModel } from '../models/User';
-import { IUser } from '../types/user.types';
-import { RegistrationData } from '../types/auth.types';
+import { IUser } from '../interfaces/user.types';
+import { RegistrationData } from '../interfaces/auth.types';
 import { ConflictError } from '../utils/errors.utils';
 
 export const registerUser = async (data: RegistrationData): Promise<IUser> => {

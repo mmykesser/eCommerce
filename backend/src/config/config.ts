@@ -1,5 +1,5 @@
 import 'dotenv-safe/config';
-import { IConfig } from '../types/config.types';
+import { IConfig } from '../interfaces/config.types';
 
 const getEnvVariable = (name: string): string => {
   const value = process.env[name];

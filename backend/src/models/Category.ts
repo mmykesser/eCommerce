@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { ICategory } from '../types/category.types';
+import { ICategory } from '../interfaces/category.types';
 
 const categorySchema = new Schema<ICategory>(
   {
