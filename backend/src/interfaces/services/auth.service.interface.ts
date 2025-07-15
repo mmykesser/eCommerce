@@ -1,12 +1,17 @@
+import { Types } from 'mongoose';
 import { IRegistrationData } from '../dto/auth.interface';
-import { IUser } from '../models/user.interface';
 
 export interface IAuthTokens {
   accessToken: string;
   refreshToken: string;
 }
 
-export type PublicUser = Omit<IUser, 'password' | 'comparePassword' | 'refreshToken' | '__v'>;
+export type PublicUser = {
+  _id: Types.ObjectId;
+  email: string;
+  name: string;
+  role: 'admin' | 'user';
+};
 
 export interface IAuthService {
   register(data: IRegistrationData): Promise<{ user: PublicUser; tokens: IAuthTokens }>;
