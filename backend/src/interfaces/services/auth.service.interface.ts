@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { IRegistrationData } from '../dto/auth.interface';
+import { IRegistrationData, ILoginData } from '../dto/auth.interface';
 
 export interface IAuthTokens {
   accessToken: string;
@@ -15,4 +15,5 @@ export type PublicUser = {
 
 export interface IAuthService {
   register(data: IRegistrationData): Promise<{ user: PublicUser; tokens: IAuthTokens }>;
+  login(data: ILoginData): Promise<{ user: PublicUser; tokens: IAuthTokens }>;
 }
