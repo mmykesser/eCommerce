@@ -1,30 +1,30 @@
-import { RequestHandler } from 'express';
-import { IRegistrationData } from '../../interfaces/dto/auth.interface';
-import { ValidationError } from '../../utils/errors.utils';
+import Joi from 'joi';
+import { validate } from '../../utils/validation.utils';
 
-export const validateRegistration: RequestHandler = (req, _res, next) => {
-  const { email, password, name } = req.body as IRegistrationData;
+const registrationSchema = Joi.object({
+  name: Joi.string().min(3).required().messages({
+    'string.min': 'Name should be at least 3 characters',
+    'any.required': 'Name is required',
+  }),
+  email: Joi.string().email().required().messages({
+    'string.email': 'Invalid email address',
+    'any.required': 'Email is required',
+  }),
+  password: Joi.string().min(6).required().messages({
+    'string.min': 'Password should be at least 6 characters',
+    'any.required': 'Password is required',
+  }),
+});
 
-  if (!email || !password || !name) {
-    return next(new ValidationError('All fields are required'));
-  }
+const loginSchema = Joi.object({
+  email: Joi.string().email().required().messages({
+    'string.email': 'Invalid email address',
+    'any.required': 'Email is required',
+  }),
+  password: Joi.string().required().messages({
+    'any.required': 'Password is required',
+  }),
+});
 
-  const trimmedEmail = (email ?? '').trim();
-  const trimmedPassword = (password ?? '').trim();
-  const trimmedName = (name ?? '').trim();
-
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  if (!emailRegex.test(trimmedEmail)) {
-    return next(new ValidationError('Invalid email address'));
-  }
-
-  if (trimmedPassword.length < 6) {
-    return next(new ValidationError('Password must be at least 6 characters'));
-  }
-
-  if (trimmedName.length < 3) {
-    return next(new ValidationError('Name should be at least 3 characters'));
-  }
-
-  next();
-};
+export const validateRegistration = validate(registrationSchema);
+export const validateLogin = validate(loginSchema);
