@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import { AuthService } from '../../services/auth.service';
+import { setRefreshTokenCookie } from '../../utils/cookie.utils';
 
 const authService = new AuthService();
 
@@ -7,12 +8,8 @@ export const register: RequestHandler = async (req, res, next) => {
   try {
     const { user, tokens } = await authService.register(req.body);
 
-    res.cookie('refreshToken', tokens.refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
+    setRefreshTokenCookie(res, tokens.refreshToken);
+
     res.status(201).json({
       success: true,
       data: {
