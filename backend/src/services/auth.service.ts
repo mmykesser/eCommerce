@@ -8,7 +8,7 @@ import {
 } from '../interfaces/services/auth.service.interface';
 import { ConflictError, UnauthorizedError } from '../utils/errors.utils';
 import config from '../config/config';
-import { IUser } from '../interfaces/models/user.interface';
+import { IUserDocument } from '../interfaces/models/user.interface';
 
 export class AuthService implements IAuthService {
   public async register(
@@ -55,8 +55,8 @@ export class AuthService implements IAuthService {
     return { accessToken, refreshToken };
   }
 
-  private _preparePublicUser(user: IUser): PublicUser {
-    const { _id, email, name, role } = user;
-    return { _id, email, name, role };
+  private _preparePublicUser(user: IUserDocument): PublicUser {
+    const { email, name, role } = user;
+    return { _id: user._id.toString(), email, name, role };
   }
 }

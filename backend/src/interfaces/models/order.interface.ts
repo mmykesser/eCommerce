@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
 
-export interface IOrder extends Document {
+export interface IOrder {
   user: Types.ObjectId;
   products: {
     product: Types.ObjectId;
@@ -9,3 +9,5 @@ export interface IOrder extends Document {
   totalPrice: number;
   inPostPaczkomat: string;
 }
+
+export interface IOrderDocument extends IOrder, Document {}

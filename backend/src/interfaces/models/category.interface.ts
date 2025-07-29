@@ -1,7 +1,9 @@
 import { Document, Types } from 'mongoose';
 
-export interface ICategory extends Document {
+export interface ICategory {
   name: string;
   image: string;
   createdBy: Types.ObjectId;
 }
+
+export interface ICategoryDocument extends ICategory, Document {}
