@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import { IRegistrationData, ILoginData } from '../dto/auth.interface';
 
 export interface IAuthTokens {
@@ -7,7 +6,7 @@ export interface IAuthTokens {
 }
 
 export type PublicUser = {
-  _id: Types.ObjectId;
+  _id: string;
   email: string;
   name: string;
   role: 'admin' | 'user';
