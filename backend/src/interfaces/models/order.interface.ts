@@ -10,4 +10,6 @@ export interface IOrder {
   inPostPaczkomat: string;
 }
 
-export interface IOrderDocument extends IOrder, Document {}
+export interface IOrderDocument extends IOrder, Document {
+  _id: Types.ObjectId;
+}
