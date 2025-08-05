@@ -15,4 +15,5 @@ export type PublicUser = {
 export interface IAuthService {
   register(data: IRegistrationData): Promise<{ user: PublicUser; tokens: IAuthTokens }>;
   login(data: ILoginData): Promise<{ user: PublicUser; tokens: IAuthTokens }>;
+  refresh(token: string): Promise<{ user: PublicUser; tokens: IAuthTokens }>;
 }
