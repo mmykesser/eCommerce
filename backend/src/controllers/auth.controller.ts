@@ -43,4 +43,23 @@ export class AuthController {
       next(err);
     }
   };
+
+  public refresh: RequestHandler = async (req, res, next) => {
+    try {
+      const { refreshToken } = req.cookies;
+      const { user, tokens } = await this.authService.refresh(refreshToken);
+
+      setRefreshTokenCookie(res, tokens.refreshToken);
+
+      res.status(200).json({
+        success: true,
+        data: {
+          user,
+          accessToken: tokens.accessToken,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }
