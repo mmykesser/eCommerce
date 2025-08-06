@@ -8,6 +8,7 @@ import {
 } from '../interfaces/services/auth.service.interface';
 import { ConflictError, UnauthorizedError } from '../utils/errors.utils';
 import config from '../config/config';
+import { IPayload } from '../interfaces/auth/payload.interface';
 import { IUserDocument } from '../interfaces/models/user.interface';
 
 export class AuthService implements IAuthService {
@@ -20,7 +21,7 @@ export class AuthService implements IAuthService {
       throw new ConflictError('User with this email already exists');
     }
     const newUser = new UserModel(data);
-    const tokens = this._generateTokens({ id: newUser._id });
+    const tokens = this._generateTokens({ id: newUser._id.toString() });
     newUser.refreshToken = tokens.refreshToken;
 
     await newUser.save();
@@ -40,7 +41,7 @@ export class AuthService implements IAuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedError('Invalid email or password');
     }
-    const tokens = this._generateTokens({ id: user._id });
+    const tokens = this._generateTokens({ id: user._id.toString() });
     user.refreshToken = tokens.refreshToken;
 
     await user.save();
@@ -49,7 +50,29 @@ export class AuthService implements IAuthService {
     return { user: userResponse, tokens };
   }
 
-  private _generateTokens(payload: object): IAuthTokens {
+  public async refresh(token: string): Promise<{ user: PublicUser; tokens: IAuthTokens }> {
+    if (!token) {
+      throw new UnauthorizedError('Refresh token not provided ');
+    }
+    let payload: IPayload;
+    try {
+      payload = jwt.verify(token, config.jwtSecret) as IPayload;
+    } catch (err) {
+      throw new UnauthorizedError('Invalid or expired refresh token');
+    }
+    const user = await UserModel.findOne({ _id: payload.id, refreshToken: token });
+    if (!user) {
+      throw new UnauthorizedError('Invalid refresh token. User not found or token revoked');
+    }
+
+    const tokens = this._generateTokens({ id: user._id.toString() });
+    user.refreshToken = tokens.refreshToken;
+    await user.save();
+    const userResponse = this._preparePublicUser(user);
+    return { user: userResponse, tokens };
+  }
+
+  private _generateTokens(payload: IPayload): IAuthTokens {
     const accessToken = jwt.sign(payload, config.jwtSecret, { expiresIn: '15m' });
     const refreshToken = jwt.sign(payload, config.jwtSecret, { expiresIn: '30d' });
     return { accessToken, refreshToken };
