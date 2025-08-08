@@ -26,7 +26,7 @@ export class AuthService implements IAuthService {
 
     await newUser.save();
 
-    const userResponse = this._preparePublicUser(newUser);
+    const userResponse = AuthService.preparePublicUser(newUser);
     return { user: userResponse, tokens };
   }
 
@@ -46,7 +46,7 @@ export class AuthService implements IAuthService {
 
     await user.save();
 
-    const userResponse = this._preparePublicUser(user);
+    const userResponse = AuthService.preparePublicUser(user);
     return { user: userResponse, tokens };
   }
 
@@ -68,7 +68,7 @@ export class AuthService implements IAuthService {
     const tokens = this._generateTokens({ id: user._id.toString() });
     user.refreshToken = tokens.refreshToken;
     await user.save();
-    const userResponse = this._preparePublicUser(user);
+    const userResponse = AuthService.preparePublicUser(user);
     return { user: userResponse, tokens };
   }
 
@@ -78,7 +78,7 @@ export class AuthService implements IAuthService {
     return { accessToken, refreshToken };
   }
 
-  private _preparePublicUser(user: IUserDocument): PublicUser {
+  public static preparePublicUser(user: IUserDocument): PublicUser {
     const { email, name, role } = user;
     return { _id: user._id.toString(), email, name, role };
   }
