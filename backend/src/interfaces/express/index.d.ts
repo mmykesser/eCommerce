@@ -1,9 +1,9 @@
-import { IUserDocument } from '../models/user.interface';
+import { PublicUser } from '../services/auth.service.interface';
 
 declare global {
   namespace Express {
     interface Request {
-      user?: IUserDocument;
+      user?: PublicUser;
     }
   }
 }
