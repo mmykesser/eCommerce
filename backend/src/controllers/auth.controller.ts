@@ -62,4 +62,12 @@ export class AuthController {
       next(err);
     }
   };
+  public getProfile: RequestHandler = (req, res) => {
+    res.status(200).json({
+      success: true,
+      data: {
+        user: req.user,
+      },
+    });
+  };
 }
