@@ -1,5 +1,6 @@
 import { ProductModel } from '../models/Product';
 import { NotFoundError } from '../utils/errors.utils';
+import { IProduct } from '../interfaces/models/product.interface';
 
 export class ProductService {
   public async findAllProducts() {
@@ -12,5 +13,9 @@ export class ProductService {
       throw new NotFoundError('Product not found');
     }
     return product;
+  }
+
+  public async createProduct(productData: IProduct) {
+    return ProductModel.create(productData);
   }
 }
