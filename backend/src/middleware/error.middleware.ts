@@ -21,6 +21,13 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
       message: err.message,
     });
   }
+  if (err.name === 'CastError') {
+    const customMessage = `Invalid field format ${err.path}: ${err.value}`;
+    return res.status(400).json({
+      success: false,
+      message: customMessage,
+    });
+  }
   if (err instanceof UnauthorizedError) {
     return res.status(401).json({
       success: false,
