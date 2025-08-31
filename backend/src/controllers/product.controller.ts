@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import { ProductService } from '../services/product.service';
+import { IProduct } from '../interfaces/models/product.interface';
 
 export class ProductController {
   private productService = new ProductService();
@@ -23,6 +24,18 @@ export class ProductController {
       res.status(200).json({
         success: true,
         data: product,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  public createProduct: RequestHandler = async (req, res, next) => {
+    try {
+      const newProduct = await this.productService.createProduct(req.body as IProduct);
+      res.status(201).json({
+        success: true,
+        data: newProduct,
       });
     } catch (err) {
       next(err);
