@@ -4,6 +4,7 @@ import config from './config/config';
 import connectDB from './database/db';
 import authRoutes from './routes/auth.routes';
 import productRoutes from './routes/product.routes';
+import categoryRoutes from './routes/category.routes';
 import { errorHandler } from './middleware/error.middleware';
 
 const app: Express = express();
@@ -13,6 +14,8 @@ app.use(cookieParser());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/categories', categoryRoutes);
+
 app.use(errorHandler);
 
 const startServer = async (): Promise<void> => {
