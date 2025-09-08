@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { ProductService } from '../services/product.service';
 import { IProduct } from '../interfaces/models/product.interface';
+import { UnauthorizedError } from '../utils/errors.utils';
 
 export class ProductController {
   private productService = new ProductService();
@@ -32,6 +33,10 @@ export class ProductController {
 
   public createProduct: RequestHandler = async (req, res, next) => {
     try {
+      if (!req.user) {
+        return next(new UnauthorizedError('Unauthorized'));
+      }
+
       const newProduct = await this.productService.createProduct(req.body as IProduct);
       res.status(201).json({
         success: true,
