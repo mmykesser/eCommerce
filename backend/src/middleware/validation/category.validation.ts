@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { validate } from '../utils/validation.utils';
+import { validate } from '../../utils/validation.utils';
 
 const createCategorySchema = Joi.object({
   name: Joi.string().min(4).required().messages({
