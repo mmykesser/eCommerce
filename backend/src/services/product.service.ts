@@ -1,6 +1,7 @@
 import { ProductModel } from '../models/Product';
 import { NotFoundError } from '../utils/errors.utils';
 import { IProduct } from '../interfaces/models/product.interface';
+import { CategoryModel } from '../models/Category';
 
 export class ProductService {
   public async findAllProducts() {
@@ -16,6 +17,10 @@ export class ProductService {
   }
 
   public async createProduct(productData: IProduct) {
+    const categoryExists = await CategoryModel.findById(productData.category);
+    if (!categoryExists) {
+      throw new NotFoundError('Category ID not found');
+    }
     return ProductModel.create(productData);
   }
 }
