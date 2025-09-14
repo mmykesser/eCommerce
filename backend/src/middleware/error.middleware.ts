@@ -4,6 +4,7 @@ import {
   ConflictError,
   UnauthorizedError,
   NotFoundError,
+  ForbiddenError,
 } from '../utils/errors.utils';
 
 export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
@@ -30,6 +31,12 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   }
   if (err instanceof UnauthorizedError) {
     return res.status(401).json({
+      success: false,
+      message: err.message,
+    });
+  }
+  if (err instanceof ForbiddenError) {
+    return res.status(403).json({
       success: false,
       message: err.message,
     });
