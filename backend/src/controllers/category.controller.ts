@@ -36,4 +36,31 @@ export class CategoryController {
       next(err);
     }
   };
+  public updateCategory: RequestHandler = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const categoryData = req.body as Partial<Omit<ICategory, 'createdBy'>>;
+
+      const updatedCategory = await this.categoryService.updateCategory(id, categoryData);
+
+      res.status(200).json({
+        success: true,
+        data: updatedCategory,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  public deleteCategory: RequestHandler = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      await this.categoryService.deleteCategory(id);
+
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
+  };
 }
