@@ -1,5 +1,5 @@
 import { CategoryModel } from '../models/Category';
-import { ConflictError } from '../utils/errors.utils';
+import { ConflictError, NotFoundError } from '../utils/errors.utils';
 import { ICategory } from '../interfaces/models/category.interface';
 
 export class CategoryService {
@@ -17,5 +17,28 @@ export class CategoryService {
       ...categoryData,
       createdBy: userId,
     });
+  }
+
+  public async updateCategory(
+    categoryId: string,
+    categoryData: Partial<Omit<ICategory, 'createdBy'>>,
+  ) {
+    const updatedCategory = await CategoryModel.findByIdAndUpdate(categoryId, categoryData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedCategory) {
+      throw new NotFoundError('Category ID not found');
+    }
+    return updatedCategory;
+  }
+
+  public async deleteCategory(categoryId: string): Promise<void> {
+    const deleteCategory = await CategoryModel.findByIdAndDelete(categoryId);
+
+    if (!deleteCategory) {
+      throw new NotFoundError('Category ID not found');
+    }
   }
 }
