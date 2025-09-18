@@ -37,11 +37,39 @@ export class ProductController {
         return next(new UnauthorizedError('Unauthorized'));
       }
 
-      const newProduct = await this.productService.createProduct(req.body as IProduct);
+      const newProduct = await this.productService.createProduct(req.body);
       res.status(201).json({
         success: true,
         data: newProduct,
       });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  public updateProduct: RequestHandler = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      const updatedProduct = await this.productService.updateProduct(
+        id,
+        req.body as Partial<IProduct>,
+      );
+      res.status(200).json({
+        success: true,
+        data: updatedProduct,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  public deleteProduct: RequestHandler = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      await this.productService.deleteProduct(id);
+      res.status(204).send();
     } catch (err) {
       next(err);
     }
