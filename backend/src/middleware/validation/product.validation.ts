@@ -27,3 +27,25 @@ const createProductSchema = Joi.object({
 });
 
 export const validateCreateProduct = validate(createProductSchema);
+
+const updateProductSchema = Joi.object({
+  title: Joi.string().min(3).messages({
+    'string.min': 'Title should be at least 3 characters',
+  }),
+  price: Joi.number().positive().messages({
+    'number.base': 'Price must be a number',
+    'number.positive': 'Price must be a positive number',
+  }),
+  description: Joi.string().min(10).messages({
+    'string.min': 'Description should be at least 10 characters',
+  }),
+  category: Joi.string().hex().length(24).messages({
+    'string.hex': 'Category ID must be a valid hexadecimal string',
+    'string.length': 'Category ID must be 24 characters long',
+  }),
+  images: Joi.array().items(Joi.string().uri()).min(1).messages({
+    'array.min': 'At least one image is required',
+  }),
+});
+
+export const validateUpdateProduct = validate(updateProductSchema);
