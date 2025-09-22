@@ -1,6 +1,6 @@
 import { CategoryModel } from '../models/Category';
 import { ConflictError, NotFoundError } from '../utils/errors.utils';
-import { ICategory } from '../interfaces/models/category.interface';
+import { ICategory } from '../interfaces/entities/category.interface';
 
 export class CategoryService {
   public async findAllCategories() {

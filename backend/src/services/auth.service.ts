@@ -9,7 +9,7 @@ import {
 import { ConflictError, UnauthorizedError } from '../utils/errors.utils';
 import config from '../config/config';
 import { IPayload } from '../interfaces/auth/payload.interface';
-import { IUserDocument } from '../interfaces/models/user.interface';
+import { IUserDocument } from '../interfaces/entities/user.interface';
 
 export class AuthService implements IAuthService {
   public async register(

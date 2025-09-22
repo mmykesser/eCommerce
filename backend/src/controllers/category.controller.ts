@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { CategoryService } from '../services/category.service';
-import { ICategory } from '../interfaces/models/category.interface';
+import { ICategory } from '../interfaces/entities/category.interface';
 import { UnauthorizedError } from '../utils/errors.utils';
 
 export class CategoryController {

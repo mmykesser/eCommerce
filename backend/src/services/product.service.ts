@@ -1,6 +1,6 @@
 import { ProductModel } from '../models/Product';
 import { NotFoundError } from '../utils/errors.utils';
-import { IProduct } from '../interfaces/models/product.interface';
+import { IProduct } from '../interfaces/entities/product.interface';
 import { CategoryModel } from '../models/Category';
 
 export class ProductService {

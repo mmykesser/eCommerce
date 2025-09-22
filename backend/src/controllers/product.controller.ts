@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { ProductService } from '../services/product.service';
-import { IProduct } from '../interfaces/models/product.interface';
+import { IProduct } from '../interfaces/entities/product.interface';
 import { UnauthorizedError } from '../utils/errors.utils';
 
 export class ProductController {
