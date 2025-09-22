@@ -1,15 +1,20 @@
 import { Document, Types } from 'mongoose';
 
-export interface IOrder {
-  user: Types.ObjectId;
-  products: {
-    product: Types.ObjectId;
-    quantity: number;
-  }[];
-  totalPrice: number;
-  inPostPaczkomat: string;
+export interface IOrderProduct {
+  product: Types.ObjectId;
+  quantity: number;
 }
 
-export interface IOrderDocument extends IOrder, Document {
-  _id: Types.ObjectId;
+export interface IShippingDetails {
+  type: 'inpost_paczkomat';
+  address: string;
 }
+
+export interface IOrder {
+  user: Types.ObjectId;
+  products: IOrderProduct[];
+  totalPrice: number;
+  shippingDetails: IShippingDetails;
+}
+
+export interface IOrderDocument extends IOrder, Document {}
