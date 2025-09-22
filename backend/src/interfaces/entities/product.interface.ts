@@ -8,6 +8,4 @@ export interface IProduct {
   images: string[];
 }
 
-export interface IProductDocument extends IProduct, Document {
-  _id: Types.ObjectId;
-}
+export interface IProductDocument extends IProduct, Document {}

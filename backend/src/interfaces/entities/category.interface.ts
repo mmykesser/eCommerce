@@ -6,6 +6,4 @@ export interface ICategory {
   createdBy: Types.ObjectId;
 }
 
-export interface ICategoryDocument extends ICategory, Document {
-  _id: Types.ObjectId;
-}
+export interface ICategoryDocument extends ICategory, Document {}

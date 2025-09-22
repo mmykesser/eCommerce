@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 export interface IUser {
   email: string;
@@ -9,6 +9,4 @@ export interface IUser {
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
-export interface IUserDocument extends IUser, Document {
-  _id: Types.ObjectId;
-}
+export interface IUserDocument extends IUser, Document {}
