@@ -21,7 +21,7 @@ export class AuthService implements IAuthService {
       throw new ConflictError('User with this email already exists');
     }
     const newUser = new UserModel(data);
-    const tokens = this._generateTokens({ id: newUser._id.toString() });
+    const tokens = this._generateTokens({ id: String(newUser._id) });
     newUser.refreshToken = tokens.refreshToken;
 
     await newUser.save();
@@ -41,7 +41,7 @@ export class AuthService implements IAuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedError('Invalid email or password');
     }
-    const tokens = this._generateTokens({ id: user._id.toString() });
+    const tokens = this._generateTokens({ id: String(user._id) });
     user.refreshToken = tokens.refreshToken;
 
     await user.save();
@@ -65,7 +65,7 @@ export class AuthService implements IAuthService {
       throw new UnauthorizedError('Invalid refresh token. User not found or token revoked');
     }
 
-    const tokens = this._generateTokens({ id: user._id.toString() });
+    const tokens = this._generateTokens({ id: String(user._id) });
     user.refreshToken = tokens.refreshToken;
     await user.save();
     const userResponse = AuthService.preparePublicUser(user);
@@ -80,6 +80,6 @@ export class AuthService implements IAuthService {
 
   public static preparePublicUser(user: IUserDocument): PublicUser {
     const { email, name, role } = user;
-    return { _id: user._id.toString(), email, name, role };
+    return { _id: String(user.id), email, name, role };
   }
 }
