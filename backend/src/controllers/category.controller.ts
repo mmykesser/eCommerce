@@ -9,6 +9,7 @@ export class CategoryController {
   public getAllCategories: RequestHandler = async (_req, res, next) => {
     try {
       const categories = await this.categoryService.findAllCategories();
+
       res.status(200).json({
         success: true,
         data: categories,
@@ -21,13 +22,12 @@ export class CategoryController {
   public createCategory: RequestHandler = async (req, res, next) => {
     try {
       if (!req.user) {
-        return next(new UnauthorizedError('Unauthorized'));
+        return next(new UnauthorizedError('Authorization is required to create a category'));
       }
 
-      const newCategory = await this.categoryService.createCategory(
-        req.body as Omit<ICategory, 'createdBy'>,
-        req.user._id,
-      );
+      const categoryData: Omit<ICategory, 'createdBy'> = req.body;
+      const newCategory = await this.categoryService.createCategory(categoryData, req.user._id);
+
       res.status(201).json({
         success: true,
         data: newCategory,
@@ -39,8 +39,8 @@ export class CategoryController {
   public updateCategory: RequestHandler = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const categoryData = req.body as Partial<Omit<ICategory, 'createdBy'>>;
 
+      const categoryData: Partial<Omit<ICategory, 'createdBy'>> = req.body;
       const updatedCategory = await this.categoryService.updateCategory(id, categoryData);
 
       res.status(200).json({

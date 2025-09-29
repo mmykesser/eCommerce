@@ -22,6 +22,7 @@ export class ProductController {
     try {
       const { id } = req.params;
       const product = await this.productService.findProductById(id);
+
       res.status(200).json({
         success: true,
         data: product,
@@ -34,10 +35,12 @@ export class ProductController {
   public createProduct: RequestHandler = async (req, res, next) => {
     try {
       if (!req.user) {
-        return next(new UnauthorizedError('Unauthorized'));
+        return next(new UnauthorizedError('Authorization is required to create a product'));
       }
 
-      const newProduct = await this.productService.createProduct(req.body);
+      const productData: IProduct = req.body;
+      const newProduct = await this.productService.createProduct(productData);
+
       res.status(201).json({
         success: true,
         data: newProduct,
@@ -51,10 +54,9 @@ export class ProductController {
     try {
       const { id } = req.params;
 
-      const updatedProduct = await this.productService.updateProduct(
-        id,
-        req.body as Partial<IProduct>,
-      );
+      const productData: Partial<IProduct> = req.body;
+      const updatedProduct = await this.productService.updateProduct(id, productData);
+
       res.status(200).json({
         success: true,
         data: updatedProduct,
@@ -69,6 +71,7 @@ export class ProductController {
       const { id } = req.params;
 
       await this.productService.deleteProduct(id);
+
       res.status(204).send();
     } catch (err) {
       next(err);
