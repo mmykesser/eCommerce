@@ -30,11 +30,24 @@ export class OrderService {
       totalPrice += productDetails.price * orderProduct.quantity;
     }
 
-    return await OrderModel.create({
+    return OrderModel.create({
       user: userId,
       products: productsData,
       totalPrice,
       shippingDetails,
     });
+  }
+  public async findUserOrders(userId: string | Types.ObjectId) {
+    return OrderModel.find({ user: userId })
+      .sort({ createdAt: -1 })
+      .populate('user', 'name email')
+      .populate('products.product', 'title price');
+  }
+
+  public async findAllOrders() {
+    return OrderModel.find()
+      .sort({ createdAt: -1 })
+      .populate('user', 'name email')
+      .populate('products.product', 'title price');
   }
 }
