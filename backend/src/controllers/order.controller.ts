@@ -27,4 +27,26 @@ export class OrderController {
       next(err);
     }
   };
+
+  public getOrders: RequestHandler = async (req, res, next) => {
+    try {
+      if (!req.user) {
+        return next(new UnauthorizedError('Authorization is required to get orders'));
+      }
+      let orders;
+
+      if (req.user.role === 'admin') {
+        orders = await this.orderService.findAllOrders();
+      } else {
+        orders = await this.orderService.findUserOrders(req.user._id);
+      }
+
+      res.status(200).json({
+        success: true,
+        data: orders,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }
