@@ -1,6 +1,6 @@
 import { IOrderProduct, IShippingDetails } from '../entities/order.interface';
 
-export interface IOrderData {
+export interface ICreateOrderData {
   products: IOrderProduct[];
   shippingDetails: IShippingDetails;
 }

@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { OrderService } from '../services/order.service';
-import { IOrderData } from '../interfaces/dto/order.interface';
+import { ICreateOrderData } from '../interfaces/dto/order.interface';
 import { UnauthorizedError } from '../utils/errors.utils';
 
 export class OrderController {
@@ -12,7 +12,7 @@ export class OrderController {
         return next(new UnauthorizedError('Authorization is required to create an order'));
       }
 
-      const orderData: IOrderData = req.body;
+      const orderData: ICreateOrderData = req.body;
       const newOrder = await this.orderService.createOrder(
         req.user._id,
         orderData.products,
