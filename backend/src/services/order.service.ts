@@ -2,7 +2,7 @@ import { Types } from 'mongoose';
 import { IOrderProduct, IShippingDetails } from '../interfaces/entities/order.interface';
 import { ProductModel } from '../models/Product';
 import { OrderModel } from '../models/Order';
-import { NotFoundError, ValidationError } from '../utils/errors.utils';
+import { ForbiddenError, NotFoundError, ValidationError } from '../utils/errors.utils';
 import { IProductDocument } from '../interfaces/entities/product.interface';
 
 export class OrderService {
@@ -49,5 +49,20 @@ export class OrderService {
       .sort({ createdAt: -1 })
       .populate('user', 'name email')
       .populate('products.product', 'title price');
+  }
+
+  public async findOrderById(orderId: string, userId: string, userRole: string) {
+    const order = await OrderModel.findById(orderId)
+      .populate('user', 'name email')
+      .populate('products.product', 'title price');
+
+    if (!order) {
+      throw new NotFoundError('Order not found');
+    }
+
+    if (userRole !== 'admin' && order.user._id.toString() !== userId.toString()) {
+      throw new ForbiddenError('Not authorized to view this order');
+    }
+    return order;
   }
 }

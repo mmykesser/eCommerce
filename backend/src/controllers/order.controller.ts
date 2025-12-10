@@ -49,4 +49,23 @@ export class OrderController {
       next(err);
     }
   };
+
+  public getOrderById: RequestHandler = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      if (!req.user) {
+        return next(new UnauthorizedError('Authorization is required to get order'));
+      }
+
+      const order = await this.orderService.findOrderById(id, req.user._id, req.user.role);
+
+      res.status(200).json({
+        success: true,
+        data: order,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }

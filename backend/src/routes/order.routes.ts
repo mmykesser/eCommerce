@@ -11,4 +11,6 @@ router
   .post(protect, validateCreateOrder, orderController.createOrder)
   .get(protect, orderController.getOrders);
 
+router.route('/:id').get(protect, orderController.getOrderById);
+
 export default router;
