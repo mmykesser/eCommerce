@@ -68,4 +68,19 @@ export class OrderController {
       next(err);
     }
   };
+
+  public deleteOrder: RequestHandler = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      if (!req.user) {
+        return next(new UnauthorizedError('Authorization is required to delete order'));
+      }
+      await this.orderService.deleteOrder(id, req.user._id, req.user.role);
+
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
+  };
 }

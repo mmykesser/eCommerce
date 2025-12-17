@@ -65,4 +65,17 @@ export class OrderService {
     }
     return order;
   }
+
+  public async deleteOrder(orderId: string, userId: string, userRole: string) {
+    const order = await OrderModel.findById(orderId);
+
+    if (!order) {
+      throw new NotFoundError('Order not found');
+    }
+
+    if (userRole !== 'admin' && order.user.toString() !== userId.toString()) {
+      throw new ForbiddenError('Not authorized to delete this order');
+    }
+    await OrderModel.findByIdAndDelete(orderId);
+  }
 }
