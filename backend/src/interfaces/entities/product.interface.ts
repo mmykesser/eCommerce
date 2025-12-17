@@ -4,6 +4,7 @@ export interface IProduct {
   title: string;
   price: number;
   description: string;
+  stock: number;
   category: Types.ObjectId;
   images: string[];
 }

@@ -2,7 +2,12 @@ import { Types } from 'mongoose';
 import { IOrderProduct, IShippingDetails } from '../interfaces/entities/order.interface';
 import { ProductModel } from '../models/Product';
 import { OrderModel } from '../models/Order';
-import { ForbiddenError, NotFoundError, ValidationError } from '../utils/errors.utils';
+import {
+  ForbiddenError,
+  NotFoundError,
+  ValidationError,
+  ConflictError,
+} from '../utils/errors.utils';
 import { IProductDocument } from '../interfaces/entities/product.interface';
 
 export class OrderService {
@@ -22,12 +27,21 @@ export class OrderService {
     if (foundProducts.length !== productIds.length) {
       throw new NotFoundError('One or more products not found');
     }
+
     let totalPrice = 0;
+
     for (const orderProduct of productsData) {
       const productDetails = foundProducts.find(
         (p) => p._id.toString() === orderProduct.product.toString(),
       ) as IProductDocument;
+
+      if (productDetails.stock < orderProduct.quantity) {
+        throw new ConflictError(`Not enough stock for: ${productDetails.title}`);
+      }
       totalPrice += productDetails.price * orderProduct.quantity;
+
+      productDetails.stock -= orderProduct.quantity;
+      await productDetails.save();
     }
 
     return OrderModel.create({
@@ -75,6 +89,14 @@ export class OrderService {
 
     if (userRole !== 'admin' && order.user.toString() !== userId.toString()) {
       throw new ForbiddenError('Not authorized to delete this order');
+    }
+
+    for (const orderProduct of order.products) {
+      const product = await ProductModel.findById(orderProduct.product);
+      if (product) {
+        product.stock += orderProduct.quantity;
+        await product.save();
+      }
     }
     await OrderModel.findByIdAndDelete(orderId);
   }
