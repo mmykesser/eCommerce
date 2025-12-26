@@ -1,7 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { ICategoryDocument } from '../interfaces/entities/category.interface';
 
-const categorySchema = new Schema<ICategoryDocument>(
+const CategorySchema = new Schema<ICategoryDocument>(
   {
     name: { type: String, required: true },
     image: { type: String, required: true },
@@ -14,4 +14,4 @@ const categorySchema = new Schema<ICategoryDocument>(
   { timestamps: true },
 );
 
-export const CategoryModel = mongoose.model<ICategoryDocument>('Category', categorySchema);
+export const CategoryModel = model<ICategoryDocument>('Category', CategorySchema);
