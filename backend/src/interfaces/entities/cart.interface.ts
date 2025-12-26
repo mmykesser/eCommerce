@@ -1,0 +1,16 @@
+import { Document, Types } from 'mongoose';
+
+export interface ICartItem {
+  product: Types.ObjectId;
+  quantity: number;
+}
+
+export interface ICart {
+  user: Types.ObjectId;
+  items: ICartItem[];
+  totalPrice: number;
+}
+
+export interface ICartDocument extends ICart, Document {
+  _id: Types.ObjectId;
+}
