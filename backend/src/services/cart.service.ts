@@ -2,7 +2,6 @@ import { Types } from 'mongoose';
 import { CartModel } from '../models/Cart';
 import { ProductModel } from '../models/Product';
 import { NotFoundError, ConflictError } from '../utils/errors.utils';
-import { IProductDocument } from '../interfaces/entities/product.interface';
 import { ICartDocument } from '../interfaces/entities/cart.interface';
 
 export class CartService {
@@ -66,12 +65,16 @@ export class CartService {
 
   private async _recalculateCart(cart: ICartDocument) {
     let total = 0;
+    const validItems = [];
+
     for (const item of cart.items) {
-      const product = (await ProductModel.findById(item.product)) as IProductDocument;
+      const product = await ProductModel.findById(item.product);
       if (product) {
         total += product.price * item.quantity;
+        validItems.push(item);
       }
     }
+    cart.items = validItems;
     cart.totalPrice = total;
     await cart.save();
 
