@@ -15,6 +15,12 @@ const createProductSchema = Joi.object({
     'string.min': 'Description should be at least 10 characters',
     'any.required': 'Description is required',
   }),
+  stock: Joi.number().integer().min(0).required().messages({
+    'number.base': 'Stock must be a number',
+    'number.integer': 'Stock must be an integer',
+    'number.min': 'Stock cannot be negative',
+    'any.required': 'Stock is required',
+  }),
   category: Joi.string().hex().length(24).required().messages({
     'string.hex': 'Category ID must be a valid hexadecimal string',
     'string.length': 'Category ID must be 24 characters long',
@@ -38,6 +44,11 @@ const updateProductSchema = Joi.object({
   }),
   description: Joi.string().min(10).messages({
     'string.min': 'Description should be at least 10 characters',
+  }),
+  stock: Joi.number().integer().min(0).messages({
+    'number.base': 'Stock must be a number',
+    'number.integer': 'Stock must be an integer',
+    'number.min': 'Stock cannot be negative',
   }),
   category: Joi.string().hex().length(24).messages({
     'string.hex': 'Category ID must be a valid hexadecimal string',
