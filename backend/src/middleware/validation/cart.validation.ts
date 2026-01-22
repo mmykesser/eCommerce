@@ -16,3 +16,14 @@ const addToCartSchema = Joi.object({
 });
 
 export const validateAddToCart = validate(addToCartSchema);
+
+const updateCartSchema = Joi.object({
+  quantity: Joi.number().integer().min(0).required().messages({
+    'number.base': 'Quantity must be a number',
+    'number.integer': 'Quantity must be an integer',
+    'number.min': 'Quantity cannot be negative',
+    'any.required': 'Quantity is required',
+  }),
+});
+
+export const validateUpdateCart = validate(updateCartSchema);

@@ -41,6 +41,26 @@ export class CartController {
     }
   };
 
+  public updateCart: RequestHandler = async (req, res, next) => {
+    try {
+      if (!req.user) {
+        return next(new UnauthorizedError('Authentication is required to update cart'));
+      }
+
+      const { quantity } = req.body;
+      const { productId } = req.params;
+
+      const cart = await this.cartService.updateCart(req.user._id, productId, quantity);
+
+      res.status(200).json({
+        success: true,
+        data: cart,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   public removeFromCart: RequestHandler = async (req, res, next) => {
     try {
       if (!req.user) {

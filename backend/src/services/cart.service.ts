@@ -51,6 +51,37 @@ export class CartService {
     return cart;
   }
 
+  public async updateCart(userId: string | Types.ObjectId, productId: string, quantity: number) {
+    const cart = await CartModel.findOne({ user: userId });
+    if (!cart) {
+      throw new NotFoundError('Cart not found');
+    }
+
+    const itemIndex = cart.items.findIndex((item) => item.product.toString() === productId);
+    if (itemIndex === -1) {
+      throw new NotFoundError('Product not found in cart');
+    }
+
+    if (quantity === 0) {
+      cart.items.splice(itemIndex, 1);
+      await this._recalculateCart(cart);
+      return cart;
+    }
+
+    const product = await ProductModel.findById(productId);
+    if (!product) {
+      throw new NotFoundError('Product not found');
+    }
+    if (product.stock < quantity) {
+      throw new ConflictError(`Not enough stock. Available: ${product.stock}`);
+    }
+
+    cart.items[itemIndex].quantity = quantity;
+
+    await this._recalculateCart(cart);
+    return cart;
+  }
+
   public async removeFromCart(userId: string | Types.ObjectId, productId: string) {
     const cart = await CartModel.findOne({ user: userId });
     if (!cart) {

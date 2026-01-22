@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { CartController } from '../controllers/cart.controller';
 import { protect } from '../middleware/auth.middleware';
-import { validateAddToCart } from '../middleware/validation/cart.validation';
+import { validateAddToCart, validateUpdateCart } from '../middleware/validation/cart.validation';
 
 const router = Router();
 const cartController = new CartController();
@@ -11,6 +11,9 @@ router
   .get(protect, cartController.getCart)
   .post(protect, validateAddToCart, cartController.addToCart);
 
-router.route('/:productId').delete(protect, cartController.removeFromCart);
+router
+  .route('/:productId')
+  .delete(protect, cartController.removeFromCart)
+  .patch(protect, validateUpdateCart, cartController.updateCart);
 
 export default router;
