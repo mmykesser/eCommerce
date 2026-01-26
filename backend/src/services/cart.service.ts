@@ -94,6 +94,17 @@ export class CartService {
     return cart;
   }
 
+  public async clearCart(userId: string | Types.ObjectId) {
+    const cart = await CartModel.findOne({ user: userId });
+    if (!cart) {
+      throw new NotFoundError('Cart not found');
+    }
+
+    cart.items = [];
+    cart.totalPrice = 0;
+    await cart.save();
+  }
+
   private async _recalculateCart(cart: ICartDocument) {
     let total = 0;
     const validItems = [];

@@ -78,4 +78,18 @@ export class CartController {
       next(err);
     }
   };
+
+  public clearCart: RequestHandler = async (req, res, next) => {
+    try {
+      if (!req.user) {
+        return next(new UnauthorizedError('Authentication is required to clear cart'));
+      }
+
+      await this.cartService.clearCart(req.user._id);
+
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
+  };
 }

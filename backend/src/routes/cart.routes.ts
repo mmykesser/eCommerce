@@ -9,7 +9,8 @@ const cartController = new CartController();
 router
   .route('/')
   .get(protect, cartController.getCart)
-  .post(protect, validateAddToCart, cartController.addToCart);
+  .post(protect, validateAddToCart, cartController.addToCart)
+  .delete(protect, cartController.clearCart);
 
 router
   .route('/:productId')
