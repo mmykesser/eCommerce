@@ -13,6 +13,8 @@ const config: IConfig = {
   port: parseInt(getEnvVariable('PORT'), 10),
   mongoURI: getEnvVariable('MONGODB_URI'),
   jwtSecret: getEnvVariable('JWT_SECRET'),
+  inpostApiToken: getEnvVariable('INPOST_API_TOKEN'),
+  inpostPointsApiUrl: getEnvVariable('INPOST_POINTS_API_URL'),
 };
 
 export default config;
