@@ -8,6 +8,7 @@ import categoryRoutes from './routes/category.routes';
 import orderRoutes from './routes/order.routes';
 import userRoutes from './routes/user.routes';
 import cartRoutes from './routes/cart.routes';
+import inpostRoutes from './routes/inpost.routes';
 import { errorHandler } from './middleware/error.middleware';
 
 const app: Express = express();
@@ -21,6 +22,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/inpost', inpostRoutes);
 
 app.use(errorHandler);
 
