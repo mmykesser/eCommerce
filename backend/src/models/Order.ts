@@ -46,7 +46,7 @@ const OrderSchema = new Schema<IOrderDocument>(
     },
     shippingDetails: ShippingDetailsSchema,
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 
 OrderSchema.index({ user: 1, createdAt: -1 });

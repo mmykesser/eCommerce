@@ -11,7 +11,7 @@ const CategorySchema = new Schema<ICategoryDocument>(
       required: true,
     },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 
 export const CategoryModel = model<ICategoryDocument>('Category', CategorySchema);

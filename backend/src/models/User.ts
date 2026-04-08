@@ -10,7 +10,7 @@ const UserSchema = new Schema<IUserDocument>(
     role: { type: String, enum: ['admin', 'user'], default: 'user' },
     refreshToken: { type: String },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 
 UserSchema.pre('save', async function (next) {
