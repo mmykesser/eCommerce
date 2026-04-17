@@ -4,7 +4,7 @@ import { UnauthorizedError } from '../utils/errors.utils';
 import { IAddToCartData } from '../interfaces/dto/cart.interface';
 
 export class CartController {
-  private cartService = new CartService();
+  constructor(private cartService: CartService) {}
 
   public getCart: RequestHandler = async (req, res, next) => {
     try {

@@ -1,10 +1,13 @@
 import { Router } from 'express';
 import { CartController } from '../controllers/cart.controller';
+import { CartService } from '../services/cart.service';
 import { protect } from '../middleware/auth.middleware';
 import { validateAddToCart, validateUpdateCart } from '../middleware/validation/cart.validation';
 
 const router = Router();
-const cartController = new CartController();
+
+const cartService = new CartService();
+const cartController = new CartController(cartService);
 
 router
   .route('/')

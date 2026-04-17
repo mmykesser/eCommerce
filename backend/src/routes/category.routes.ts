@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { CategoryController } from '../controllers/category.controller';
+import { CategoryService } from '../services/category.service';
 import { protect, authorize } from '../middleware/auth.middleware';
 import {
   validateCreateCategory,
@@ -8,7 +9,8 @@ import {
 
 const router = Router();
 
-const categoryController = new CategoryController();
+const categoryService = new CategoryService();
+const categoryController = new CategoryController(categoryService);
 
 router
   .route('/')

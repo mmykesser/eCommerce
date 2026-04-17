@@ -3,7 +3,7 @@ import { InPostService } from '../services/inpost.service';
 import { IInPostPointsQuery } from '../interfaces/external/inpost.interface';
 
 export class InPostController {
-  private inpostService = new InPostService();
+  constructor(private inpostService: InPostService) {}
 
   public getPoints: RequestHandler = async (req, res, next) => {
     try {

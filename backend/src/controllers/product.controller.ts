@@ -4,7 +4,7 @@ import { IProduct } from '../interfaces/entities/product.interface';
 import { UnauthorizedError } from '../utils/errors.utils';
 
 export class ProductController {
-  private productService = new ProductService();
+  constructor(private productService: ProductService) {}
 
   public getAllProducts: RequestHandler = async (_req, res, next) => {
     try {

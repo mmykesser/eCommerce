@@ -4,7 +4,7 @@ import { setRefreshTokenCookie } from '../utils/cookie.utils';
 import { IRegistrationData, ILoginData } from '../interfaces/dto/auth.interface';
 
 export class AuthController {
-  private authService = new AuthService();
+  constructor(private authService: AuthService) {}
 
   public register: RequestHandler = async (req, res, next) => {
     try {

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { ProductController } from '../controllers/product.controller';
+import { ProductService } from '../services/product.service';
 import { protect, authorize } from '../middleware/auth.middleware';
 import {
   validateCreateProduct,
@@ -7,7 +8,8 @@ import {
 } from '../middleware/validation/product.validation';
 const router = Router();
 
-const productController = new ProductController();
+const productService = new ProductService();
+const productController = new ProductController(productService);
 
 router
   .route('/')

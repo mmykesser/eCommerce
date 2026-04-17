@@ -3,7 +3,7 @@ import { UserService } from '../services/user.service';
 import { IUpdateUserData } from '../interfaces/dto/user.interface';
 
 export class UserController {
-  private userService = new UserService();
+  constructor(private userService: UserService) {}
 
   public getAllUsers: RequestHandler = async (_req, res, next) => {
     try {

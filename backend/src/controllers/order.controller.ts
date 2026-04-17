@@ -4,7 +4,7 @@ import { ICreateOrderData } from '../interfaces/dto/order.interface';
 import { UnauthorizedError } from '../utils/errors.utils';
 
 export class OrderController {
-  private orderService = new OrderService();
+  constructor(private orderService: OrderService) {}
 
   public createOrder: RequestHandler = async (req, res, next) => {
     try {

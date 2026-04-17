@@ -4,7 +4,7 @@ import { ICategory } from '../interfaces/entities/category.interface';
 import { UnauthorizedError } from '../utils/errors.utils';
 
 export class CategoryController {
-  private categoryService = new CategoryService();
+  constructor(private categoryService: CategoryService) {}
 
   public getAllCategories: RequestHandler = async (_req, res, next) => {
     try {
