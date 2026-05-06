@@ -58,6 +58,7 @@ export class AuthService implements IAuthService {
     try {
       payload = jwt.verify(token, config.jwtSecret) as IPayload;
     } catch (err) {
+      console.error('Token verification failed:', err);
       throw new UnauthorizedError('Invalid or expired refresh token');
     }
     const user = await UserModel.findOne({ _id: payload.id, refreshToken: token });
