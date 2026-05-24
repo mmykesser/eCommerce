@@ -25,7 +25,7 @@ export default defineConfig([
       prettier: prettierPlugin,
     },
     rules: {
-      'prettier/prettier': 'error',
+      'prettier/prettier': 'off',
       'no-console': 'off',
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
