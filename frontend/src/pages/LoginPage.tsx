@@ -1,3 +1,5 @@
+import { LoginForm } from '../features/auth/components/LoginForm';
+
 export const LoginPage = () => {
   return (
     <div
@@ -22,58 +24,7 @@ export const LoginPage = () => {
             </p>
           </header>
 
-          <form className="flex flex-col gap-md" onSubmit={(e) => e.preventDefault()}>
-            <div className="flex flex-col gap-xs">
-              <label className="ml-xs text-label-sm text-on-surface-variant" htmlFor="email">
-                Email
-              </label>
-              <div className="relative flex items-center">
-                <span className="material-symbols-outlined absolute left-md text-on-surface-variant">
-                  mail
-                </span>
-                <input
-                  id="email"
-                  placeholder="mail@example.com"
-                  required
-                  type="email"
-                  className="h-14 w-full rounded-xl border border-white/80 bg-white/60 pr-md pl-12 text-body-md text-primary placeholder-on-surface-variant/50 shadow-sm transition-all focus:bg-white/80"
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-xs">
-              <label className="ml-xs text-label-sm text-on-surface-variant" htmlFor="password">
-                Password
-              </label>
-              <div className="relative flex items-center">
-                <span className="material-symbols-outlined absolute left-md text-on-surface-variant">
-                  lock
-                </span>
-                <input
-                  id="password"
-                  placeholder="***********"
-                  required
-                  type="password"
-                  className="h-14 w-full rounded-xl border border-white/80 bg-white/60 pr-md pl-12 text-body-md text-primary placeholder-on-surface-variant/50 shadow-sm transition-all focus:border-primary focus:bg-white/80 focus:outline-hidden"
-                />
-              </div>
-              <div className="mt-xs flex justify-end">
-                <a
-                  href="#"
-                  className="text-label-sm text-secondary transition-all hover:text-primary"
-                >
-                  Forgot password
-                </a>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className="mt-sm flex h-14 w-full items-center justify-center rounded-xl bg-primary text-title-sm text-on-primary transition-transform hover:bg-inverse-surface active:scale-[0.98]"
-            >
-              Sign In
-            </button>
-          </form>
+          <LoginForm />
 
           <p className="mt-sm text-center text-label-sm text-on-surface-variant">
             Don't have an account?{' '}
