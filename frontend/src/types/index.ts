@@ -67,3 +67,8 @@ export interface IApiError {
   success: false;
   message: string;
 }
+
+export interface IAuthResponse {
+  user: IUser;
+  accessToken: string;
+}
