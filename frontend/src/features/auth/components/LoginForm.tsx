@@ -1,14 +1,34 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { loginSchema, type ILoginCredentials } from '../auth.validation';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { loginUser } from '../authSlice';
 
 export const LoginForm = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { error, loading } = useAppSelector((state) => state.auth);
+
   const initialValues: ILoginCredentials = {
     email: '',
     password: '',
   };
 
-  const handleSubmit = (values: ILoginCredentials) => {
-    console.log('Login attempt with:', values);
+  const handleSubmit = async (
+    values: ILoginCredentials,
+    { setSubmitting, resetForm }: FormikHelpers<ILoginCredentials>,
+  ) => {
+    try {
+      await dispatch(loginUser(values)).unwrap();
+
+      resetForm();
+      navigate('/');
+    } catch {
+      // Error is already handling by Redux slice
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -73,10 +93,16 @@ export const LoginForm = () => {
             </div>
           </div>
 
+          {error && (
+            <div className="rounded-xl bg-error-container p-sm text-center text-label-sm text-on-error-container">
+              {error}
+            </div>
+          )}
+
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="mt-sm flex h-14 w-full items-center justify-center rounded-xl bg-primary text-title-sm text-on-primary transition-transform hover:bg-inverse-surface active:scale-[0.98] disabled:opacity-50"
+            disabled={isSubmitting || loading}
+            className="flex h-14 w-full items-center justify-center rounded-xl bg-primary text-title-sm text-on-primary transition-transform hover:bg-inverse-surface active:scale-[0.98] disabled:opacity-50"
           >
             {isSubmitting ? 'Signing in...' : 'Sign In'}
           </button>
