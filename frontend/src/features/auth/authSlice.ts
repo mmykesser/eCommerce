@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import type { IUser, IAuthResponse, IApiError } from '../../types';
 import { authApi } from './authApi';
-import type { ILoginCredentials } from './auth.validation';
+import type { ILoginCredentials, IRegisterCredentials } from './auth.validation';
 
 interface IAuthState {
   user: IUser | null;
@@ -33,6 +33,22 @@ export const loginUser = createAsyncThunk<
   }
 });
 
+export const registerUser = createAsyncThunk<
+  IAuthResponse,
+  IRegisterCredentials,
+  { rejectValue: string }
+>('auth/register', async (credentials, { rejectWithValue }) => {
+  try {
+    const data = await authApi.register(credentials);
+    localStorage.setItem('accessToken', data.accessToken);
+    return data;
+  } catch (err) {
+    const error = err as { response?: { data?: IApiError } };
+    const message = error.response?.data?.message ?? 'Registration failed. Please try again';
+    return rejectWithValue(message);
+  }
+});
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -56,6 +72,20 @@ const authSlice = createSlice({
         state.accessToken = action.payload.accessToken;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? 'An error occurred';
+      })
+
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action: PayloadAction<IAuthResponse>) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? 'An error occurred';
       });
