@@ -8,7 +8,7 @@ export const LoginPage = () => {
       subtitle="Welcome back! Please sign in to continue"
       footerText="Don't have an account?"
       footerLinkText="Create yours now"
-      footerLinkHref="#"
+      footerLinkHref="/register"
     >
       <LoginForm />
     </AuthLayout>
