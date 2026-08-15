@@ -1,6 +1,6 @@
 import $api from '../../api/axios';
 import type { ILoginCredentials, IRegisterCredentials } from './auth.validation';
-import type { IAuthResponse, IApiResponse } from '../../types';
+import type { IAuthResponse, IApiResponse, IUser } from '../../types';
 
 export const authApi = {
   async login(credentials: ILoginCredentials): Promise<IAuthResponse> {
@@ -17,5 +17,10 @@ export const authApi = {
       password: credentials.password,
     });
     return response.data.data;
+  },
+
+  async getProfile(): Promise<IUser> {
+    const response = await $api.get<IApiResponse<{ user: IUser }>>('/auth/profile');
+    return response.data.data.user;
   },
 };
