@@ -56,6 +56,23 @@ export const registerUser = createAsyncThunk<
   }
 });
 
+export const getProfile = createAsyncThunk<IUser, void, { rejectValue: string }>(
+  'auth/getProfile',
+  async (_, { rejectWithValue }) => {
+    try {
+      const user = await authApi.getProfile();
+      return user;
+    } catch (err) {
+      localStorage.removeItem('accessToken');
+      if (axios.isAxiosError<IApiError>(err)) {
+        const message = err.response?.data?.message ?? 'Failed to fetch user profile';
+        return rejectWithValue(message);
+      }
+      return rejectWithValue('An unexpected error occurred');
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -64,6 +81,7 @@ const authSlice = createSlice({
       state.user = null;
       state.accessToken = null;
       state.error = null;
+      state.isInitializing = false;
       localStorage.removeItem('accessToken');
     },
   },
@@ -95,6 +113,21 @@ const authSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? 'An error occurred';
+      })
+      .addCase(getProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getProfile.fulfilled, (state, action: PayloadAction<IUser>) => {
+        state.loading = false;
+        state.isInitializing = false;
+        state.user = action.payload;
+      })
+      .addCase(getProfile.rejected, (state) => {
+        state.loading = false;
+        state.isInitializing = false;
+        state.user = null;
+        state.accessToken = null;
       });
   },
 });
