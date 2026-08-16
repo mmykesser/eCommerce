@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import type { IUser, IAuthResponse, IApiError } from '../../types';
 import { authApi } from './authApi';
@@ -8,6 +9,7 @@ interface IAuthState {
   accessToken: string | null;
   loading: boolean;
   error: string | null;
+  isInitializing: boolean;
 }
 
 const initialState: IAuthState = {
@@ -15,6 +17,7 @@ const initialState: IAuthState = {
   accessToken: localStorage.getItem('accessToken'),
   loading: false,
   error: null,
+  isInitializing: !!localStorage.getItem('accessToken'),
 };
 
 export const loginUser = createAsyncThunk<
@@ -27,9 +30,11 @@ export const loginUser = createAsyncThunk<
     localStorage.setItem('accessToken', data.accessToken);
     return data;
   } catch (err) {
-    const error = err as { response?: { data?: IApiError } };
-    const message = error.response?.data?.message ?? 'Login failed. Please try again';
-    return rejectWithValue(message);
+    if (axios.isAxiosError<IApiError>(err)) {
+      const message = err.response?.data?.message ?? 'Login failed. Please try again';
+      return rejectWithValue(message);
+    }
+    return rejectWithValue('An unexpected error occurred');
   }
 });
 
@@ -43,9 +48,11 @@ export const registerUser = createAsyncThunk<
     localStorage.setItem('accessToken', data.accessToken);
     return data;
   } catch (err) {
-    const error = err as { response?: { data?: IApiError } };
-    const message = error.response?.data?.message ?? 'Registration failed. Please try again';
-    return rejectWithValue(message);
+    if (axios.isAxiosError<IApiError>(err)) {
+      const message = err.response?.data?.message ?? 'Registration failed. Please try again';
+      return rejectWithValue(message);
+    }
+    return rejectWithValue('An unexpected error occurred');
   }
 });
 
