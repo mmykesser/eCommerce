@@ -60,8 +60,7 @@ export const getProfile = createAsyncThunk<IUser, void, { rejectValue: string }>
   'auth/getProfile',
   async (_, { rejectWithValue }) => {
     try {
-      const user = await authApi.getProfile();
-      return user;
+      return await authApi.getProfile();
     } catch (err) {
       localStorage.removeItem('accessToken');
       if (axios.isAxiosError<IApiError>(err)) {
