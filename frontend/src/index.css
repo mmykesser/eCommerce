@@ -68,7 +68,7 @@
     --spacing-sm: 8px;
     --spacing-gutter-mobile: 16px;
     --spacing-lg: 24px;
-    --spacing-auth-card: 384px;
+    --spacing-card-sm: 384px;
 
     /*FONT SIZE */
     --text-display-lg-mobile: 32px;
@@ -98,6 +98,15 @@
     --text-label-sm--line-height: 18px;
     --text-label-sm--letter-spacing: 0.02em;
     --text-label-sm--font-weight: 500;
+
+    /* ANIMATIONS FOR LOADER */
+    --animate-progress: loading-progress 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes loading-progress {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(0%); }
+    100% { transform: translateX(100%); }
 }
 
 /* BASE STYLES*/
@@ -127,4 +136,3 @@
     }
 
 }
-
