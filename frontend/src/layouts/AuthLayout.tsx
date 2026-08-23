@@ -20,7 +20,7 @@ export const AuthLayout = ({
 }: IAuthLayoutProps) => {
   return (
     <GlassCard>
-      <header className="mb-sm flex flex-col items-center gap-sm text-center">
+      <header className="flex flex-col items-center gap-sm text-center">
         <span
           className="material-symbols-outlined mb-xs text-[40px] text-primary"
           style={{ fontVariationSettings: '"FILL" 1' }}
@@ -33,7 +33,7 @@ export const AuthLayout = ({
 
       {children}
 
-      <p className="mt-sm text-center text-label-sm text-on-surface-variant">
+      <p className="text-center text-label-sm text-on-surface-variant">
         {footerText}{' '}
         <a className="text-primary hover:underline" href={footerLinkHref}>
           {footerLinkText}
