@@ -94,7 +94,7 @@ ecommerce/
 
 Layered architecture:
 
-1. Router: Defines routes, applies middleware (auth, validation), 
+1. Router: Defines routes, applies middleware (auth, validation),
 and wires controllers with their services.
 2. Controller: Reads the request (req), calls the appropriate service, and sends the response (res).
 3. Service: Handles all business logic, database queries, and throws custom errors.
@@ -181,7 +181,7 @@ The API uses two tokens: a short-lived **access token** (15 min) sent in the `Au
 
 The reason for two tokens: if the access token gets stolen somehow, it expires in 15 minutes anyway. The refresh token lives in an HTTP-only cookie which JavaScript can't read at all, so XSS attacks can't grab it. When the access token expires, the frontend calls `POST /api/auth/refresh` - the browser sends the cookie automatically, and the server issues a fresh pair of tokens.
 
-The refresh token is also saved in the database, so it can be invalidated server-side if needed (e.g. on logout, or if something looks suspicious). Logout isn't implemented yet on the frontend, but the backend is ready for it - just clear the cookie and null out the DB field.
+Logout is fully implemented on the backend: it clears the HTTP-only cookie and removes the refresh token from the database using `$unset`.
 
 > **Heads up for Postman testing:** Postman handles cookies automatically, but you need to make sure the Postman cookie jar is enabled. After login, check the Cookies tab - you should see `refreshToken` there.
 
@@ -257,6 +257,16 @@ Log in with email and password.
 Get a new access token using the refresh token cookie. No request body needed - the browser sends the cookie automatically.
 
 **Response `200`:** same shape as login.
+
+---
+
+#### `POST /api/auth/logout`
+
+Log out the current user. Clears the `refreshToken` HTTP-only cookie in the browser and atomically removes the refresh token from the database.
+
+No request body or `Authorization` header required — works even if the access token has already expired.
+
+**Response `204`:** No Content (empty response body).
 
 ---
 
