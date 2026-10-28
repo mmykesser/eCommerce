@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { AuthService } from '../services/auth.service';
-import { setRefreshTokenCookie } from '../utils/cookie.utils';
+import { setRefreshTokenCookie, clearRefreshTokenCookie } from '../utils/cookie.utils';
 import { IRegistrationData, ILoginData } from '../interfaces/dto/auth.interface';
 
 export class AuthController {
@@ -62,6 +62,23 @@ export class AuthController {
       next(err);
     }
   };
+
+  public logout: RequestHandler = async (req, res, next) => {
+    try {
+      const { refreshToken } = req.cookies;
+
+      if (refreshToken) {
+        await this.authService.logout(refreshToken);
+      }
+
+      clearRefreshTokenCookie(res);
+
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
+  };
+
   public getProfile: RequestHandler = (req, res) => {
     res.status(200).json({
       success: true,

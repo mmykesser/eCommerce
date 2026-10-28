@@ -73,6 +73,13 @@ export class AuthService implements IAuthService {
     return { user: userResponse, tokens };
   }
 
+  public async logout(token: string): Promise<void> {
+    if (!token) {
+      return;
+    }
+    await UserModel.updateOne({ refreshToken: token }, { $unset: { refreshToken: 1 } });
+  }
+
   private _generateTokens(payload: IPayload): IAuthTokens {
     const accessToken = jwt.sign(payload, config.jwtSecret, { expiresIn: '15m' });
     const refreshToken = jwt.sign(payload, config.jwtSecret, { expiresIn: '30d' });

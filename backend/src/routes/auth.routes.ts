@@ -12,6 +12,7 @@ const authController = new AuthController(authService);
 router.post('/register', validateRegistration, authController.register);
 router.post('/login', validateLogin, authController.login);
 router.post('/refresh', authController.refresh);
+router.post('/logout', authController.logout);
 router.get('/profile', protect, authController.getProfile);
 
 export default router;
