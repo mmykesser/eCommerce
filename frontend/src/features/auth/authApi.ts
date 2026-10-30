@@ -23,4 +23,8 @@ export const authApi = {
     const response = await $api.get<IApiResponse<{ user: IUser }>>('/auth/profile');
     return response.data.data.user;
   },
+
+  async logout(): Promise<void> {
+    await $api.post('/auth/logout');
+  },
 };
