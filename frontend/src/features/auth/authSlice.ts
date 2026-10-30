@@ -72,6 +72,16 @@ export const getProfile = createAsyncThunk<IUser, void, { rejectValue: string }>
   },
 );
 
+export const logoutUser = createAsyncThunk<void, void>('auth/logout', async (_, { dispatch }) => {
+  try {
+    await authApi.logout();
+  } catch (err) {
+    console.error('Logout error:', err);
+  } finally {
+    dispatch(logout());
+  }
+});
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
