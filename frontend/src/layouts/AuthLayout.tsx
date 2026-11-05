@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { GlassCard } from '../components/ui/GlassCard';
 
 interface IAuthLayoutProps {
@@ -35,9 +36,9 @@ export const AuthLayout = ({
 
       <p className="text-center text-label-sm text-on-surface-variant">
         {footerText}{' '}
-        <a className="text-primary hover:underline" href={footerLinkHref}>
+        <Link className="text-primary hover:underline" to={footerLinkHref}>
           {footerLinkText}
-        </a>
+        </Link>
       </p>
     </GlassCard>
   );
