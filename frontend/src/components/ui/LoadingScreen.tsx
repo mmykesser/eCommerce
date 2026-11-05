@@ -1,4 +1,6 @@
 import { GlassCard } from './GlassCard';
+import { BRAND_NAME } from '../../constants/brand';
+
 interface ILoadingScreenProps {
   message?: string;
   storeTitle?: string;
@@ -6,7 +8,7 @@ interface ILoadingScreenProps {
 
 export const LoadingScreen = ({
   message = 'Loading...',
-  storeTitle = 'Aura Store',
+  storeTitle = BRAND_NAME,
 }: ILoadingScreenProps) => {
   return (
     <GlassCard>
