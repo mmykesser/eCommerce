@@ -4,7 +4,7 @@ import config from '../config/config';
 const connectDB = async (): Promise<void> => {
   try {
     const { mongoURI } = config;
-    console.log('Connecting to MongoDB with URI:', mongoURI);
+    console.log('Connecting to MongoDB...');
 
     await mongoose.connect(mongoURI);
     console.log('Connected to MongoDB');
