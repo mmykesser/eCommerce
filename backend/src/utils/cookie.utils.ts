@@ -2,22 +2,23 @@ import { CookieOptions, Response } from 'express';
 
 const THIRTY_DAYS_IN_MS = 30 * 24 * 60 * 60 * 1000;
 
-export const BASE_COOKIE_OPTIONS: CookieOptions = {
-  //XSS protection: cookie is inaccessible to client-side JavaScript
+const isProduction = process.env.NODE_ENV === 'production';
+
+export const refreshCookieOptions: CookieOptions = {
   httpOnly: true,
-  //Transmitted only HTTPS in production
-  secure: process.env.NODE_ENV === 'production',
-  //CSRF protection: cookie will only be sent with requests from the same site
-  sameSite: 'strict',
+  secure: isProduction,
+  // Frontend and API will be on different domains, so in production the
+  // cookie must be allowed to travel cross-site (requires secure: true)
+  sameSite: isProduction ? 'none' : 'strict',
 };
 
 export const setRefreshTokenCookie = (res: Response, token: string) => {
   res.cookie('refreshToken', token, {
-    ...BASE_COOKIE_OPTIONS,
+    ...refreshCookieOptions,
     maxAge: THIRTY_DAYS_IN_MS,
   });
 };
 
 export const clearRefreshTokenCookie = (res: Response) => {
-  res.clearCookie('refreshToken', BASE_COOKIE_OPTIONS);
+  res.clearCookie('refreshToken', refreshCookieOptions);
 };
