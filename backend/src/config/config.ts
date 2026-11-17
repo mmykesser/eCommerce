@@ -10,7 +10,7 @@ const getEnvVariable = (name: string): string => {
 };
 
 const config: IConfig = {
-  port: parseInt(getEnvVariable('PORT'), 10),
+  port: Number.parseInt(getEnvVariable('PORT'), 10),
   mongoURI: getEnvVariable('MONGODB_URI'),
   jwtSecret: getEnvVariable('JWT_SECRET'),
   inpostApiToken: getEnvVariable('INPOST_API_TOKEN'),
