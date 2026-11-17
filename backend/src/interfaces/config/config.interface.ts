@@ -4,4 +4,5 @@ export interface IConfig {
   jwtSecret: string;
   inpostApiToken: string;
   inpostPointsApiUrl: string;
+  frontendUrl: string;
 }

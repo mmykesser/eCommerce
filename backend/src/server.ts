@@ -15,7 +15,7 @@ import { errorHandler } from './middleware/error.middleware';
 const app: Express = express();
 
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: config.frontendUrl,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 };
