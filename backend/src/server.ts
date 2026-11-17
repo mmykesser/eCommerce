@@ -13,6 +13,7 @@ import inpostRoutes from './routes/inpost.routes';
 import { errorHandler } from './middleware/error.middleware';
 
 const app: Express = express();
+app.disable('x-powered-by');
 
 const corsOptions = {
   origin: config.frontendUrl,
