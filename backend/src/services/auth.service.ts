@@ -86,7 +86,9 @@ export class AuthService implements IAuthService {
     return { accessToken, refreshToken };
   }
 
-  public static preparePublicUser(user: IUserDocument): PublicUser {
+  public static preparePublicUser(
+    user: Pick<IUserDocument, 'id' | 'email' | 'name' | 'role'>,
+  ): PublicUser {
     const { email, name, role } = user;
     return { _id: String(user.id), email, name, role };
   }
